@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#08110f" />
+  <title>Flow Explorer — Trace the knowledge system</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="mark">F</span><div><strong>Flow Explorer</strong><small>Execution inspector</small></div></div>
+    <div class="top-actions"><span id="apiStatus" class="status"><i></i> runtime</span><button id="newRun" class="primary">▶ Execute workflow</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">LIVE, REPRODUCIBLE TRACE</p><h1>See how knowledge becomes an answer.</h1><p class="lede">Run a real deterministic pipeline, pause at boundaries, and inspect every transformation from source text to cited answer.</p></div>
+      <div class="run-card">
+        <label>Scenario<select id="scenario"></select></label>
+        <label>Retrieval strategy<select id="strategy"><option value="hybrid">Hybrid graph + semantic</option><option value="graph">Graph-first</option><option value="semantic">Semantic-first</option></select></label>
+        <label>Top K<input id="topK" type="range" min="1" max="5" value="3"><span id="topKValue">3</span></label>
+      </div>
+    </section>
+
+    <section class="control-strip">
+      <div><button id="playPause">⏸ Pause</button><button id="stepNext">Step next →</button><button id="replay">↻ Replay</button></div>
+      <div class="run-meta"><span id="runId">No run</span><span id="runState" class="badge idle">idle</span><span id="progressText">0 / 18 stages</span></div>
+    </section>
+
+    <section class="pipeline-panel">
+      <div class="pipeline-head"><div><p class="eyebrow">CONNECTED WORKFLOWS</p><h2>Execution map</h2></div><div class="legend"><span><i class="done-dot"></i>complete</span><span><i class="active-dot"></i>selected</span><span><i class="parallel-dot"></i>parallel</span></div></div>
+      <div id="populationFlow" class="flow"></div>
+      <div class="handoff"><span>knowledge boundary</span></div>
+      <div id="retrievalFlow" class="flow"></div>
+    </section>
+
+    <section class="workspace">
+      <aside class="inspector-nav">
+        <p class="eyebrow">STEP INSPECTOR</p><h2 id="stepTitle">Select a stage</h2><p id="stepSummary" class="muted">Execute a workflow to record a trace.</p>
+        <nav id="tabs"><button class="active" data-tab="input">Input</button><button data-tab="operation">Operation</button><button data-tab="output">Output</button><button data-tab="decision">Decision</button><button data-tab="metadata">Metadata</button><button data-tab="execution">Execution</button></nav>
+      </aside>
+      <article class="detail">
+        <div class="detail-top"><span id="detailLabel">RECORDED DATA</span><button id="copyJson">Copy JSON</button></div>
+        <pre id="detailJson">No execution selected.</pre>
+      </article>
+      <aside class="visual"><div class="visual-head"><p class="eyebrow">CONNECTED VIEW</p><span id="visualType">—</span></div><div id="visualCanvas" class="visual-canvas"><p class="empty">The relevant visualization updates with the selected stage.</p></div></aside>
+    </section>
+
+    <section class="explain-panel"><div><p class="eyebrow">WHY THIS STAGE EXISTS</p><h2>Educational lens</h2></div><div id="explanations" class="explain-grid"></div></section>
+
+    <section class="answer-panel"><div><p class="eyebrow">GROUNDED RESULT</p><h2>Generated answer</h2></div><div id="answer" class="answer"><p>Run a scenario to generate an evidence-linked answer.</p></div></section>
+
+    <section class="history-panel">
+      <div class="section-head"><div><p class="eyebrow">RECORDED EXECUTIONS</p><h2>Replay & compare</h2></div><button id="compareBtn" disabled>Compare selected traces</button></div>
+      <div id="history" class="history"><p class="empty">Completed runs will appear here. Select two to compare.</p></div>
+      <div id="comparison" class="comparison hidden"></div>
+    </section>
+  </main>
+  <footer>All displayed traces are recorded from the actual in-browser execution. No hidden reasoning is claimed or displayed.</footer>
+  <script src="/app.js"></script>
+</body>
+</html>
